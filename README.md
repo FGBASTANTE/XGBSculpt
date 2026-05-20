@@ -1,4 +1,6 @@
 # xgb_sculpt
+
+|[logo](XGBSculpt_Logo.png)
 🛠️  **Proyecto siempre bajo construcción**
 
 Módulo Experimental Python para entrenamiento, evaluación y refinamiento progresivo de pipelines XGBoost mediante selección sistemática de features. Combina nested cross-validation, splits por grupos, ponderación inversa de muestras e importancias múltiples para reducir el número de variables en los modelos.
