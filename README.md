@@ -1,6 +1,7 @@
 # xgb_sculpt
+🛠️  **Proyecto siempre bajo construcción**
 
-Módulo Python para entrenamiento, evaluación y refinamiento progresivo de pipelines XGBoost mediante selección sistemática de features. Combina nested cross-validation, splits por grupos, ponderación inversa de muestras e importancias múltiples para reducir el número de variables en los modelos .
+Módulo Experimental Python para entrenamiento, evaluación y refinamiento progresivo de pipelines XGBoost mediante selección sistemática de features. Combina nested cross-validation, splits por grupos, ponderación inversa de muestras e importancias múltiples para reducir el número de variables en los modelos.
 
 Los datos debe contener una feature que señale a lo ensayos repetidos en -aproximadamente las mismas condiciones- a una muestra ('sample_id'). Durante la carga de datos se asiginará un peso (weight) a la variable objetivo inversamente proporcional al número de repeticiones en la muestra.
 
@@ -39,7 +40,6 @@ Realiza un target encoder sobre una variable categórica (v.g. sexo, día de la 
 | `scikit-learn` | 1.3 | Metadata routing, nested CV, HalvingGridSearchCV |
 | `xgboost` | 1.7 | Modelo base |
 | `shap` | 0.42 | Explicabilidad |
-| `category_encoders` | 2.6 | TargetEncoder para variables categóricas |
 | `pandas` | 1.5 | Manipulación de datos |
 | `numpy` | 1.23 | Operaciones numéricas |
 | `matplotlib` | 3.6 | Visualización |
@@ -53,7 +53,7 @@ Realiza un target encoder sobre una variable categórica (v.g. sexo, día de la 
 ## Instalación
 
 ```bash
-pip install scikit-learn>=1.3 xgboost shap category-encoders pandas numpy matplotlib seaborn adjustText
+pip install scikit-learn>=1.3 xgboost shap pandas numpy matplotlib seaborn adjustText
 ```
 
 ```python
@@ -210,16 +210,16 @@ preds = final_model_.predict(X_new)
 Todas las funciones de selección aceptan tanto el ensemble completo como una lista con un único `[final_model]`. **El patrón recomendado es `[final_model]`** por dos razones:
 
 1. **Coste computacional** — el ensemble tiene 10 modelos. Pasar `[final_model]` reduce el coste en un factor 10 sin pérdida de calidad en la selección.
-2. **Consistencia del baseline** — con el ensemble, el baseline se promedia sobre 10 modelos entrenados en 10 subconjuntos distintos (cada uno con el 90% de los datos) y con hiperparámetros potencialmente distintos. Esto introduce ruido en el delta RMSE. `final_model` tiene un único baseline limpio, con hiperparámetros seleccionados sobre el 100% de los datos.
+2. **Consistencia del baseline** — con el ensemble, el baseline se promedia sobre 10 modelos entrenados en 10 subconjuntos distintos (cada uno con el 90% de los datos) y con hiperparámetros potencialmente distintos. Esto introduce ruido en el RMSE. `final_model` tiene un único baseline limpio, con hiperparámetros seleccionados sobre una cantidad mayor de datos 100%.
 
-El ensemble completo sigue siendo útil para **estimar la varianza de las importancias entre folds**, si ese análisis se requiere.
+El ensemble completo se requiere para **estimar la varianza de las importancias entre folds (En general, importancia en este contexto hace referencia a variación del RMSE cuando se eliminar o cuando se permutan las características)**.
 
 ```python
-# Patrón recomendado — final_model ya es lista, usar directamente
+# Patrón posible — obtener final_model y usarlo directamente
 models, cv_results, final_model = xs.run_pipe(X, y, ...)
 importance = xs.drop_column_cv_pipeline_clean(final_model, X, y, ...)
 
-# Patrón alternativo (análisis de varianza entre folds)
+# Patrón alternativo (análisis de varianza entre folds eliminando características una a una)
 importance = xs.drop_column_cv_pipeline_clean(models, X, y, ...)
 ```
 
