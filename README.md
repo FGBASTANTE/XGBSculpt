@@ -637,7 +637,7 @@ El RMSE fiable es el del nested CV (`get_metrics(cv_results)`). El `final_model`
 
 ### Por qué no se usa `cross_val_score` para obtener el modelo de producción
 
-Una alternativa tentadora sería llamar a `search.fit(X, y)` con el grid completo para obtener los mejores hiperparámetros sobre todos los datos. Esta opción fue descartada porque el CV interno ya ha ejecutado 10 veces el inner CV durante el nested CV. Re-ejecutarlo sobre `X` completa sería redundante y costoso. En su lugar, `run_pipe` reduce el inner CV a 2 folds (mínimo válido en sklearn) solo para que `HalvingGridSearchCV` seleccione hiperparámetros antes del refit automático — sin ningún coste de búsqueda adicional significativo.
+Una alternativa tentadora sería llamar a `search.fit(X, y)` con el grid completo para obtener los mejores hiperparámetros sobre todos los datos. Esta opción fue descartada porque el CV interno ya ha ejecutado 10 veces el inner CV durante el nested CV. Re-ejecutarlo sobre `X` completa sería redundante y costoso.
 
 ### Los hiperparámetros no se reoptimizaban durante la selección (intencional)
 
