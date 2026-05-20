@@ -1,5 +1,4 @@
-# xgb_sculpt
-<img width="1024" height="1024" alt="XGBSculpt_Logo" src="https://github.com/user-attachments/assets/0ad03268-ac45-4b43-870e-b565c640c3be" />
+<img width="800" height="800" alt="XGBSculpt_Logo" src="https://github.com/user-attachments/assets/0ad03268-ac45-4b43-870e-b565c640c3be" />
 
 🛠️  **Proyecto siempre bajo construcción**
 
