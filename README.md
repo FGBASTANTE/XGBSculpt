@@ -4,7 +4,7 @@
 
 Módulo Experimental Python para entrenamiento, evaluación y refinamiento progresivo de pipelines XGBoost mediante selección sistemática de features. Combina nested cross-validation, splits por grupos, ponderación inversa de muestras e importancias múltiples para reducir el número de variables en los modelos.
 
-Los datos debe contener una feature que señale a lo ensayos repetidos en -aproximadamente las mismas condiciones- a una muestra ('sample_id'). Durante la carga de datos se asiginará un peso (weight) a la variable objetivo inversamente proporcional al número de repeticiones en la muestra.
+Los datos deben contener una feature que señale a lo ensayos repetidos en -aproximadamente- las mismas condiciones- a una muestra ('sample_id'). Durante la carga de datos se asignará un peso (weight) a la variable objetivo inversamente proporcional al número de repeticiones en la muestra.
 
 Realiza un target encoder sobre una variable categórica (v.g. sexo, día de la semana, tipo de aleación...).
 
