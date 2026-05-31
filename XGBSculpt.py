@@ -412,11 +412,11 @@ def run_pipe(X, y, num_cols, cat_cols, groups, weights,
     # sample_weight=False en el scaler para que no intente recibirlo
     # =========================================================
     scaler = StandardScaler().set_fit_request(sample_weight=False)
-
-    preprocess = ColumnTransformer([
-        ("num", scaler, num_cols),
-        ("cat", target_encoder, cat_cols)
-    ])
+                 
+    transformers = [("num", scaler, num_cols)]
+    if cat_cols:
+        transformers.append(("cat", target_encoder, cat_cols))
+    preprocess = ColumnTransformer(transformers)
 
     if force_cpu or not GPU_AVAILABLE:
         target_device = "cpu"
@@ -449,13 +449,13 @@ def run_pipe(X, y, num_cols, cat_cols, groups, weights,
     # GroupKFold garantiza que un mismo grupo no aparezca en train y test
     # =========================================================
     if groups is not None:
-        inner_cv = GroupKFold(n_splits=10, shuffle=True, random_state=random_state)
-        outer_cv = GroupKFold(n_splits=10, shuffle=True, random_state=random_state)
+        inner_cv = GroupKFold(n_splits=10)
+        outer_cv = GroupKFold(n_splits=10)
         inner_cv.set_split_request(groups=True)
         outer_cv.set_split_request(groups=True)
     else:
-        inner_cv = KFold(n_splits=10)
-        outer_cv = KFold(n_splits=10)
+        inner_cv = KFold(n_splits=10, shuffle=True, random_state=random_state)
+        outer_cv = KFold(n_splits=10, shuffle=True, random_state=random_state)
 
     # =========================================================
     # Búsqueda de hiperparámetros con Successive Halving
