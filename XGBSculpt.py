@@ -231,7 +231,7 @@ def set_display_options():
         display(HTML("<style>pre { white-space: pre !important; }</style>"))
 
 #%% Lectura
-def data_read(csv_name, sample_id, target_name, drop_cols=None,
+def data_read(csv_name, target_name, sample_id=None, drop_cols=None,
               sep=",", encoding="utf-8", average_by_sample=False):
     """Lee un CSV y prepara los datos para modelado.
 
@@ -323,7 +323,7 @@ def data_read(csv_name, sample_id, target_name, drop_cols=None,
     return y, X, num_cols, cat_cols, groups, weights
 
 #%% Pipeline
-def run_pipe(X, y, num_cols, cat_cols, groups, weights,
+def run_pipe(X, y, num_cols, cat_cols, groups=None, weights=None,
              force_cpu=True,
              random_state=RANDOM_STATE,
              param_grid=PARAM_HGS):
@@ -1111,7 +1111,7 @@ def drop_column_cv_pipeline_clean_(models, X, y, cv_splits=5, groups=None, weigh
                 importances.head(10).to_string(index=False))
     return importances
 # %%
-def itera_perm_mod(X, y, num_cols, cat_cols, groups, weights,
+def itera_perm_mod(X, y, num_cols, cat_cols, groups=None, weights=None,
                    models=None, cv_results=None, cv_splits=5,
                    umbral=0.0, tolerance=0.015):
     """Selección iterativa de features mediante drop-column importance.
